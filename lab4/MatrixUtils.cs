@@ -1,7 +1,22 @@
-﻿namespace lab3
+﻿namespace lab4
 {
     internal static class MatrixUtils
     {
+        public static int[,] ConvertMatrixToArray(DataGridView dataGridView)
+        {
+            int size = dataGridView.RowCount - 1;
+            int[,] matrix = new int[size, size];
+
+            for (int i = 1; i < dataGridView.ColumnCount; i++)
+            {
+                for (int j = 1; j < dataGridView.RowCount; j++)
+                {
+                    matrix[i - 1, j - 1] = Convert.ToInt32(dataGridView[i, j].Value);
+                }
+            }
+            return matrix;
+        }
+
         public static void AddСolumns(DataGridView matrix, int size)
         {
             for (int i = 1; i <= size + 1; i++)
@@ -13,16 +28,7 @@
 
         public static void AddRows(DataGridView matrix)
         {
-            int matrixSize = matrix.ColumnCount;
-
-            if (matrix.Name == "dataGridViewAdjacency")
-                AddRowsAdjacency(matrix, matrixSize);
-            else
-                AddRowsIncidents(matrix, matrixSize);
-        }
-
-        private static void AddRowsAdjacency(DataGridView matrix, int size)
-        {
+            int size = matrix.ColumnCount;
             matrix.Rows.Add(size);
             for (int i = 1; i < size; i++)
             {
@@ -41,38 +47,19 @@
             matrix.AllowUserToAddRows = false;
         }
 
-        private static void AddRowsIncidents(DataGridView matrix, int size)
-        {
-            matrix.Rows.Add();
-            for (int i = 0; i < size; i++)
-            {
-                matrix[i, 0].Value = i.ToString();
-            }
-
-            matrix.ReadOnly = true;
-            matrix.Rows[0].DefaultCellStyle.BackColor = SystemColors.Control;
-            matrix.AllowUserToAddRows = false;
-        }
-
-        public static void Fill(DataGridView matrix)
+        public static void FixFill(DataGridView matrix)
         {
             for (int i = 1; i < matrix.RowCount; i++)
             {
                 for (int j = 1; j < matrix.ColumnCount; j++)
                 {
-                    // заполнение нулями и единицами
+                    if (j == i) continue;
+
+                    //fill zeros and units
                     matrix[j, i].Value = (matrix[j, i].Value is null || matrix[j, i].Value.ToString() == "0") ? 0 : 1;
                 }
             }
-            if (matrix.Name == "dataGridViewAdjacency") FixDiagonalFill(matrix);
         }
 
-        public static void FixDiagonalFill(DataGridView matrix)
-        {
-            for (int i = 1; i < matrix.RowCount; i++)
-            {
-                matrix[i, i].Value = null;
-            }
-        }
     }
 }
