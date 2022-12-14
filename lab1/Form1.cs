@@ -36,22 +36,22 @@ namespace lab1
                 {
                     dataGridView[5, i].Value = 1;
                     if (sdnf != "")
-                        sdnf += " || ";
-                    sdnf += $"({CheckPositive(a)}a && {CheckPositive(b)}b && {CheckPositive(c)}c && {CheckPositive(d)}d && {CheckPositive(e)}e)";
+                        sdnf += " ∨ ";
+                    sdnf += $"({CheckPositive(a)}a ∧ {CheckPositive(b)}b ∧ {CheckPositive(c)}c ∧ {CheckPositive(d)}d ∧ {CheckPositive(e)}e)";
                 }
                 else
                 {
                     dataGridView[5, i].Value = 0;
                     if (sknf != "")
-                        sknf += " && ";
-                    sknf += $"({CheckNegative(a)}a || {CheckNegative(b)}b || {CheckNegative(c)}c || {CheckNegative(d)}d || {CheckNegative(e)}e)";
+                        sknf += " ∧ ";
+                    sknf += $"({CheckNegative(a)}a ∨ {CheckNegative(b)}b ∨ {CheckNegative(c)}c ∨ {CheckNegative(d)}d ∨ {CheckNegative(e)}e)";
                 }
             }
             textBox1.Text = "Совершенная дизъюнктивная нормальная форма = " + sdnf;
             textBox1.Text += "\r\n\r\nСовершенная конъюнктивная нормальная форма = " + sknf;
         }
-        public static string CheckPositive(bool value) => !value ? "!" : "";
+        public static string CheckPositive(bool value) => !value ? "¬" : "";
 
-        public static string CheckNegative(bool value) => value ? "!" : "";
+        public static string CheckNegative(bool value) => value ? "¬" : "";
     }
 }
